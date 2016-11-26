@@ -60,7 +60,7 @@ cat $2 | perl -ne 'chomp;unless($_=~/^##/){$_=~s/^[Cc]hr//;print "$_\n";}' > ${d
 
 echo "Runing VEP"
 
-perl ${VEPdir}variant_effect_predictor.pl -i ${datadir1}/vcfinput_mr.vcf --offline --output_file ${datadir1}/vcfinput_mr_vep.vcf --everything --cache --port 3337 --force_overwrite --output_file data/intermediate/variant_effect_output.txt
+perl ${VEPdir}variant_effect_predictor.pl -i ${datadir1}/vcfinput_mr.vcf --offline --everything --cache --port 3337 --force_overwrite --vcf --output_file data/intermediate/variant_effect_output.vcf
 
 #Parsing the results of VEP
 
@@ -68,7 +68,7 @@ perl ${VEPdir}variant_effect_predictor.pl -i ${datadir1}/vcfinput_mr.vcf --offli
 
 echo "Parsing VEP results"
 
-perl $1/${bindir3}/24_VEP_parser_def_minus_heather_3.0.pl ${datadir1}/vcfinput_mr.vcf ${datadir1}/variant_effect_output.txt ${datadir2}/gtf_INTRONS_Plus_NMD_threshold.txt ${datadir1}/out_vep_parsed.txt ${datadir1}/vep_NMD.txt 
+perl $1/${bindir3}/24_VEP_parser_def_minus_heather.pl  ${datadir1}/variant_effect_output.vcf ${datadir2}/gtf_INTRONS_Plus_NMD_threshold.txt ${datadir1}/out_vep_parsed.txt ${datadir1}/vep_NMD.txt 
 
 echo "VEP_done.Runing_NUTVAR2"
 
