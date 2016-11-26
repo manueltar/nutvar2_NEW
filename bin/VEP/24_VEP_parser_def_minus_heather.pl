@@ -337,27 +337,27 @@ if(open (OUTPUT,'>'.$OUT_vep_parsed) && open(OUTPUT2,'>'.$vep_NMD))
 			
 			# First stop_gained
 			
-			if(grep ( $_ eq 'stop_gained', @Effects_to_one_transcript_tmp))
+			if(grep ( $_ =~ 'stop_gained', @Effects_to_one_transcript_tmp))
 			{
 				$hierarchical_effect="stop_gained";
 			}
-			elsif(grep ( $_ eq 'frameshift_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ =~ 'frameshift_variant', @Effects_to_one_transcript_tmp))
 			{
 				$hierarchical_effect="frameshift_variant";
 			}
-			elsif(grep ( $_ eq 'splice_donor_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ =~ 'splice_donor_variant', @Effects_to_one_transcript_tmp))
 			{
 				$hierarchical_effect="splice_donor_variant";
 			}
-			elsif(grep ( $_ eq 'splice_acceptor_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ =~ 'splice_acceptor_variant', @Effects_to_one_transcript_tmp))
 			{
 				$hierarchical_effect="splice_acceptor_variant";
 			}
-			elsif(grep ( $_ eq 'missense_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ =~ 'missense_variant', @Effects_to_one_transcript_tmp))
 			{
 				$hierarchical_effect="missense_variant";
 			}
-			elsif(grep ( $_ eq 'synonymous_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ =~ 'synonymous_variant', @Effects_to_one_transcript_tmp))
 			{
 				$hierarchical_effect="synonymous_variant";
 			}
