@@ -62,7 +62,7 @@ my %hash1=();
 my %hash_BIAS=();
 
 my $time='['. timestamp(). ']'."\n";
-print "Start reading INFILE:$time\n";
+#~ print "Start reading INFILE:$time\n";
 
 if(open (LIST_2, $list_2))
 {
@@ -274,6 +274,8 @@ my @accepted_keys=();
 close LIST_2;
 }else {print "No se pudo abrir el fichero $list_2 generado por VEP \n";}
 
+#~ exit;
+
 my %hashA=();
 
 $time='['. timestamp(). ']'."\n";
@@ -334,34 +336,52 @@ if(open (OUTPUT,'>'.$OUT_vep_parsed) && open(OUTPUT2,'>'.$vep_NMD))
 			# HIERARCHY
 			
 			my $hierarchical_effect="NaN";
+			my %hierarchical_hash;
+			
+			foreach my $tmp_tok(@Effects_to_one_transcript_tmp)
+			{
+				my @tmp2=split(/\&/,$tmp_tok);
+				
+				foreach my $effect_tok(@tmp2)
+				{
+					$hierarchical_hash{$effect_tok}=1;
+				}
+				
+			}
+			
+			my @Effects_to_one_transcript_tmp2=sort keys%hierarchical_hash;
+			
+			#~ print "---------->$variant_key_tok\t$Gene_name_tok\t$transcript_ID_tok\t".join("<->",@Effects_to_one_transcript_tmp2)."\t$hierarchical_effect--->";
+			
+			
 			
 			# First stop_gained
 			
-			if(grep ( $_ =~ 'stop_gained', @Effects_to_one_transcript_tmp))
+			if(grep ( $_ eq 'stop_gained', @Effects_to_one_transcript_tmp2))
 			{
 				$hierarchical_effect="stop_gained";
 			}
-			elsif(grep ( $_ =~ 'frameshift_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ eq 'frameshift_variant', @Effects_to_one_transcript_tmp2))
 			{
 				$hierarchical_effect="frameshift_variant";
 			}
-			elsif(grep ( $_ =~ 'splice_donor_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ eq 'splice_donor_variant', @Effects_to_one_transcript_tmp2))
 			{
 				$hierarchical_effect="splice_donor_variant";
 			}
-			elsif(grep ( $_ =~ 'splice_acceptor_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ eq 'splice_acceptor_variant', @Effects_to_one_transcript_tmp2))
 			{
 				$hierarchical_effect="splice_acceptor_variant";
 			}
-			elsif(grep ( $_ =~ 'missense_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ eq 'missense_variant', @Effects_to_one_transcript_tmp2))
 			{
 				$hierarchical_effect="missense_variant";
 			}
-			elsif(grep ( $_ =~ 'synonymous_variant', @Effects_to_one_transcript_tmp))
+			elsif(grep ( $_ eq 'synonymous_variant', @Effects_to_one_transcript_tmp2))
 			{
 				$hierarchical_effect="synonymous_variant";
 			}
-			
+			#~ print "$hierarchical_effect\n";
 			my $Flag_WARNING="NaN";
 			
 			# Checking steps
@@ -465,9 +485,34 @@ if(open (OUTPUT,'>'.$OUT_vep_parsed) && open(OUTPUT2,'>'.$vep_NMD))
 			
 			if($Flag_WARNING == 0)
 			{
-				foreach my $string_tok(sort keys %{$hash_BIAS{$variant_key_tok}{$Gene_name_tok}{$transcript_ID_tok}{$hierarchical_effect}})
+				foreach my $string_effect(sort keys %{$hash_BIAS{$variant_key_tok}{$Gene_name_tok}{$transcript_ID_tok}})
 				{
-					print OUTPUT "$string_tok\n";
+				foreach my $string_tok(sort keys %{$hash_BIAS{$variant_key_tok}{$Gene_name_tok}{$transcript_ID_tok}{$string_effect}})
+				{
+					my @tmp3=split(/\t/,$string_tok);
+					
+					for(my $i=0;$i<scalar(@tmp3);$i++)
+					{
+						if($i != scalar(@tmp3)-1)
+						{
+							print OUTPUT "$tmp3[$i]\t";
+							#~ print  "$tmp3[$i]\t";
+						}
+						elsif($i == scalar(@tmp3)-1)
+						{
+							my @tmp5=split(/\;/,$tmp3[scalar(@tmp3)-1]);
+							
+							my $candidate=shift(@tmp5);
+							
+							unshift(@tmp5,$hierarchical_effect);
+							
+							print OUTPUT join(";",@tmp5)."\n";
+							#~ print  join(";",@tmp5)."\n";
+						}
+					}
+					
+					
+				}
 				}
 			}
 		}
