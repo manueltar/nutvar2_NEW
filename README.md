@@ -36,7 +36,7 @@ cd nutvar2-master
 
 nutvar2-master$ ./NutVar2_snpEff.sh path-to-nutvar2-master/ user.vcf data/final
 
-Test: nutvar2-master$ ./NutVar2_snpEff.sh ~/Downloads/nutvar2-master example.vcf data/final
+Test: nutvar2-master$ ./NutVar2_snpEff.sh  ~/Downloads/nutvar2_NEW-master/ test/problems.vcf data/final
 
 # 2- VEP
 
