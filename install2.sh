@@ -15,7 +15,12 @@ rm SOFTWARE/snpEff_v3_6_core.zip
 # The genome files are obtained from ELSEWHERE (#ISSUE 1.1) ALL OF THESE FILES ARE OBTAINED FROM LOCAL THIS HAS TO CHANGE
 # Cahce files from ENSEMBL are obtained from their website include snpeff ones in the package somehow
 echo obtaining the human genome version GRCh37.75
-scp -r /media/manueltar/Data/Dropbox/Dropbox/0_p_NutVar2/snpEff_v3_6_GRCh37.75.zip SOFTWARE/snpEff
+
+# Obtain the genome from SnpEff database
+
+wget http://downloads.sourceforge.net/project/snpeff/databases/v3_6/snpEff_v3_6_GRCh37.75.zip
+
+mv  snpEff_v3_6_GRCh37.75.zip ./SOFTWARE/snpEff/
 unzip SOFTWARE/snpEff/snpEff_v3_6_GRCh37.75.zip -d ./SOFTWARE/snpEff/
 rm SOFTWARE/snpEff/snpEff_v3_6_GRCh37.75.zip
 
